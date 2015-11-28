@@ -1,0 +1,39 @@
+job-dsl:1.40
+git:2.4.0
+
+# git dep :
+scm-api:1.0
+
+buildtriggerbadge:2.2
+
+workflow-aggregator:1.11
+workflow-cps-global-lib:1.11
+workflow-durable-task-step:1.11
+workflow-step-api:1.11
+workflow-cps:1.11
+workflow-scm-step:1.11
+workflow-job:1.11
+workflow-basic-steps:1.11
+workflow-api:1.11
+workflow-support:1.11
+workflow-multibranch:1.11
+
+# dependencies for workflow...
+git-server:1.6
+durable-task:1.6
+branch-api:1.0
+ace-editor:1.0.1
+jquery-detached:1.1.1
+cloudbees-folder:5.1
+
+# dependency for git-server...
+git-client:1.19.0
+
+# bundle update
+ssh-slaves:1.10
+ssh-credentials:1.11
+credentials:1.24
+
+
+# docker
+docker-plugin:0.16.0
