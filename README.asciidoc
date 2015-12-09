@@ -1,0 +1,19 @@
+== JeZ - Jenkins Easy
+
+_That project is still a *work-in-progress*._
+
+The idea is to provide of an opinionated packaged Jenkins installation, made easy to version and autoscale.
+This is provided as a Docker image : [batmat/jez](https://hub.docker.com/r/batmat/jez).
+
+== In a bit more details
+
+* Job DSL plugin to version all the jobs
+* Docker plugin to scale
+** The idea is to push builds into a Docker Swarm cluster
+* Workflow plugin pre-installed to encourage
+
+
+=== Why the eff that name?
+
+It comes from the famous Jez Humble,
+one of the most famous proponents of the _Continuous Delivery_ movement :-).
