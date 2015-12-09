@@ -3,7 +3,7 @@
 _That project is still a *work-in-progress*._
 
 The idea is to provide of an opinionated packaged Jenkins installation, made easy to version and autoscale.
-This is provided as a Docker image : [batmat/jez](https://hub.docker.com/r/batmat/jez).
+This is provided as a Docker image : link:https://hub.docker.com/r/batmat/jez[batmat/jez].
 
 == In a bit more details
 
