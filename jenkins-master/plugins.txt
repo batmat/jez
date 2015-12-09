@@ -1,4 +1,6 @@
 job-dsl:1.40
+# gradle for job dsl
+gradle:1.24
 git:2.4.0
 
 # git dep :
@@ -25,6 +27,8 @@ branch-api:1.0
 ace-editor:1.0.1
 jquery-detached:1.1.1
 cloudbees-folder:5.1
+
+script-security:1.15
 
 # dependency for git-server...
 git-client:1.19.0
