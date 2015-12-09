@@ -1,4 +1,4 @@
-FROM jenkins:1.609.3
+FROM jenkins:1.625.2
 MAINTAINER Baptiste Mathus <batmat@batmat.net>
 
 COPY plugins.txt /usr/share/jenkins/plugins.txt
