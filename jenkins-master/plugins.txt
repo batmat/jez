@@ -3,6 +3,9 @@ job-dsl:1.40
 gradle:1.24
 git:2.4.0
 
+groovy:1.27
+token-macro:1.11
+
 # git dep :
 scm-api:1.0
 
