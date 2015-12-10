@@ -46,7 +46,7 @@
       <useWorkspaceAsHome>false</useWorkspaceAsHome>
     </hudson.plugins.gradle.Gradle>
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.40">
-      <targets>create_all_jobs.groovy</targets>
+      <targets>jobs/**/*.groovy</targets>
       <usingScriptText>false</usingScriptText>
       <ignoreExisting>false</ignoreExisting>
       <removedJobAction>DELETE</removedJobAction>
