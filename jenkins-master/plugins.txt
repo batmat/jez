@@ -6,6 +6,9 @@ git:2.4.0
 groovy:1.27
 token-macro:1.11
 
+metrics:3.1.2.1
+jackson2-api:2.5.4
+
 # git dep :
 scm-api:1.0
 
