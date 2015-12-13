@@ -7,9 +7,12 @@ def instance = Jenkins.getInstance()
 def adminUserName = System.getenv("ADMIN_USERNAME")
 def adminPassword = System.getenv("ADMIN_PASSWORD")
 
+assert adminUserName != null : "No ADMIN_USERNAME env var provided, but required"
+assert adminPassword != null : "No ADMIN_PASSWORD env var provided, but required"
+
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
 // FIXME : just during debugging/initial dev, remove the password part of that log
-out.println "XXXXXXXXXXXXXXXXXX Creating the '$adminUserName' admin user with password '$adminPassword'"
+println "XXXXXXXXXXXXXXXXXX Creating the '$adminUserName' admin user with password '$adminPassword'"
 hudsonRealm.createAccount("admin", System.getenv("ADMIN_PASSWORD"))
 instance.setSecurityRealm(hudsonRealm)
 
