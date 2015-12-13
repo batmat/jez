@@ -1,0 +1,61 @@
+= How to use
+
+CAUTION: the process described below contains many manual operations. This is both because it's still early-wip and to keep a clear list of the steps for myself. But the goal is to get it progressively automated. I don't like long lists of manual operations myself, rest assured :-).
+
+(`dm` below is an alias for `docker-machine`)
+
+== Create a token using the hosted service (warning: not designed for production)
+
+    export SWARM_DISCOVERY=token://$(docker run --rm swarm create)
+
+== Create a swarm master
+
+NOTE: `binpack` strategy is better for CI: this will keep room for bigger
+builds on remaining nodes. It's also better when you want to downscale infra
+after a peak: it will indeed use a minimum number of machines.
+
+    dm create -d openstack \
+              --swarm
+              --swarm-master
+              --swarm-strategy "binpack" \
+              --swarm-discovery "$SWARM_DISCOVERY"
+              jenkins-master
+
+== Instantiate the Jenkins master
+
+Locally, or in the cloud.
+For bandwidth & connectivity between master <==> slaves reasons,
+might be better to put in the cloud too.
+
+    dm create -d openstack jenkins-master
+    eval "$(docker-machine env jenkins-master)
+    d run -d \
+          -e DSL_REPO='https://github.com/batmat/jez-jobs.git' \
+          -p 8080:8080 \
+          --name jenkinsmaster
+          batmat/jez
+
+Copy the swarm-master `docker-machine`'s directory (contains the certificates):
+
+    chmod a+rX $HOME/.docker/machine/machines/swarm-master/
+    docker cp ~/.docker/machine/machines/swarm-master/ jenkinsmaster:/master
+
+NOTE: yeah, that part still feels like a hack. Gonna work on it.
+The `chmod` is called
+because `docker cp` will copy files as root with the local permissions.
+Hence, as Jenkins runtime runs under a dedicated `jenkins` user and
+not as root, that directory would be inaccessible.
+
+=== The Job DSL project
+
+* The `DSL_repo` parameter above is expiected to be a Git URL, and
+* the repository format is expected of the "standard" form of that example repository (maintained by one of the Job DSL committers) https://github.com/sheehan/job-dsl-gradle-example
+
+== Now, add as many nodes you want
+
+  dm create -d openstack \
+            --swarm
+            --swarm-discovery "$SWARM_DISCOVERY"
+            swarm-node-1
+
+...
