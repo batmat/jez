@@ -11,4 +11,6 @@ ENV ADMIN_USERNAME admin
 ENV DEFAULT_ADMIN_PASSWORD adminjenkins
 ENV ADMIN_PASSWORD $DEFAULT_ADMIN_PASSWORD
 
+ENV DOCKER_CERTIFICATES_DIRECTORY /docker-certificates
+
 COPY init_scripts/*.groovy  /usr/share/jenkins/ref/init.groovy.d/
