@@ -8,12 +8,7 @@ ADD seed-job/ /usr/share/jenkins/ref/jobs/_seed-job
 
 ENV ADMIN_USERNAME admin
 #default admin password : override!
-ENV ADMIN_PASSWORD adminjenkins
+ENV DEFAULT_ADMIN_PASSWORD adminjenkins
+ENV ADMIN_PASSWORD $DEFAULT_ADMIN_PASSWORD
 
 COPY init_scripts/*.groovy  /usr/share/jenkins/ref/init.groovy.d/
-
-# Install
-
-# Secure instance
-
-# configure Docker to use the swarm cluster
