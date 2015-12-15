@@ -149,8 +149,8 @@ docker_settings.each { cloud ->
                     templates,
                     cloud.serverUrl,
                     cloud.containerCapStr,
-                    cloud.connectTimeout ?: 0, // Well, it's one for the money...
-                    cloud.readTimeout ?: 0,    // Two for the show
+                    cloud.connectTimeout ?: 15, // Well, it's one for the money...
+                    cloud.readTimeout ?: 15,    // Two for the show
                     cloud.credentialsId,
                     cloud.version
     )
