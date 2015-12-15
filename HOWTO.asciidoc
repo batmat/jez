@@ -6,7 +6,8 @@ CAUTION: the process described below contains many manual operations. This is bo
 
 == Create a token using the hosted service (warning: not designed for production)
 
-    export SWARM_DISCOVERY=token://$(docker run --rm swarm create)
+[source,shell]
+export SWARM_DISCOVERY=token://$(docker run --rm swarm create)
 
 == Create a swarm master
 
@@ -14,12 +15,23 @@ NOTE: `binpack` strategy is better for CI: this will keep room for bigger
 builds on remaining nodes. It's also better when you want to downscale infra
 after a peak: it will indeed use a minimum number of machines.
 
-    dm create -d openstack \
-              --swarm
-              --swarm-master
-              --swarm-strategy "binpack" \
-              --swarm-discovery "$SWARM_DISCOVERY"
-              jenkins-master
+[source,shell]
+dm create -d openstack \
+          --swarm \
+          --swarm-master \
+          --swarm-strategy "binpack" \
+          --swarm-discovery "$SWARM_DISCOVERY" \
+          swarm-master
+
+TIP: the recommended configuration is that the master be only the _swarm manager_, and not one of the cluster nodes.
+This is link:https://docs.docker.com/swarm/install-w-machine/[recommended for a production setup].
+
+CAUTION: Before link:https://github.com/docker/machine/issues/2302[that issue] is fixed, it's not possible to provision a master not being also a node of the cluster. The workaround is to just run the command above to provision the machine in a standard, _then_ connect to the machine and stop the node agent. (it may take a few seconds to a few minutes to propagate)
+
+[source,shell]
+eval "$(docker-machine env swarm-master)"
+docker stop swarm-agent
+docker rm swarm-agent
 
 == Instantiate the Jenkins master
 
@@ -27,18 +39,28 @@ Locally, or in the cloud.
 For bandwidth & connectivity between master <==> slaves reasons,
 might be better to put in the cloud too.
 
-    dm create -d openstack jenkins-master
-    eval "$(docker-machine env jenkins-master)
-    d run -d \
-          -e DSL_REPO='https://github.com/batmat/jez-jobs.git' \
-          -p 8080:8080 \
-          --name jenkinsmaster
-          batmat/jez
+[source,shell]
+dm create -d openstack jenkins-master
+export SWARM_MASTER_IP=$(dm ip swarm-master)
+eval "$(docker-machine env jenkins-master)"
+docker run -d \
+           -e SWARM_MASTER_URL="https://$SWARM_MASTER_IP:3376" \
+           -e DSL_REPO='https://github.com/batmat/jez-jobs.git' \
+           -p 50000:50000 \
+           -p 8080:8080 \
+           --name jenkinsmaster \
+           batmat/jez
+
+You should now be able to browse the Jenkins instance at:
+
+[source,shell]
+echo "Browse at http://$(dm ip jenkins-master):8080"
 
 Copy the swarm-master `docker-machine`'s directory (contains the certificates):
 
-    chmod a+rX $HOME/.docker/machine/machines/swarm-master/
-    docker cp ~/.docker/machine/machines/swarm-master/ jenkinsmaster:/master
+[source,shell]
+chmod -R ago+rX $HOME/.docker/machine/machines/swarm-master/
+docker cp ~/.docker/machine/machines/swarm-master/ jenkinsmaster:/docker-certificates
 
 NOTE: yeah, that part still feels like a hack. Gonna work on it.
 The `chmod` is called
@@ -48,14 +70,14 @@ not as root, that directory would be inaccessible.
 
 === The Job DSL project
 
-* The `DSL_repo` parameter above is expiected to be a Git URL, and
-* the repository format is expected of the "standard" form of that example repository (maintained by one of the Job DSL committers) https://github.com/sheehan/job-dsl-gradle-example
+* The `DSL_repo` parameter above is expected to be a Git URL, and
+* The repository format is expected of the "standard" form of that example repository (maintained by one of the Job DSL committers) https://github.com/sheehan/job-dsl-gradle-example
 
 == Now, add as many nodes you want
 
   dm create -d openstack \
-            --swarm
-            --swarm-discovery "$SWARM_DISCOVERY"
+            --swarm \
+            --swarm-discovery "$SWARM_DISCOVERY" \
             swarm-node-1
 
 ...
