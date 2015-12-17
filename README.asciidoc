@@ -15,5 +15,6 @@ This is provided as a Docker image : link:https://hub.docker.com/r/batmat/jez[ba
 
 === Why the eff that name?
 
-It comes from the famous Jez Humble,
+Well, first, don't take it too seriously (the name I mean :-))
+But it comes from Jez Humble,
 one of the most famous proponents of the _Continuous Delivery_ movement :-).
