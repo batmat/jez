@@ -1,5 +1,14 @@
 = How to use
 
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+
 CAUTION: the process described below contains many manual operations. This is both because it's still early-wip and to keep a clear list of the steps for myself. But the goal is to get it progressively automated. I don't like long lists of manual operations myself, rest assured :-).
 
 (`dm` below is an alias for `docker-machine`)
