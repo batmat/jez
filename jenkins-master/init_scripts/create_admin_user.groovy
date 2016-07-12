@@ -18,7 +18,7 @@ if(adminPassword.equals(System.getenv("DEFAULT_ADMIN_PASSWORD"))) {
   println("WARNING: You didn't change the default image password, there may be a security risk")
   println("WARNING: Pass the value using 'docker run -e ADMIN_PASSWORD=theOneYouWant ...'")
 }
-hudsonRealm.createAccount("admin", System.getenv("ADMIN_PASSWORD"))
+hudsonRealm.createAccount(System.getenv("ADMIN_USERNAME"), System.getenv("ADMIN_PASSWORD"))
 instance.setSecurityRealm(hudsonRealm)
 
 def strategy = new GlobalMatrixAuthorizationStrategy()
